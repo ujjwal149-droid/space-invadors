@@ -17,6 +17,8 @@ export default class EnemyController {
     yVeloxity = 0;
     defaultXVelocity = 1;
     defaultYVelocity = 1;
+    moveDownTimerDefault = 30;
+    moveDownTimer = this.moveDownTimerDefault;
 
     constructor(canvas) {
         this.canvas = canvas;
@@ -24,8 +26,25 @@ export default class EnemyController {
     }
 
     draw(ctx) {
+        this.decrementMoveDownTimer();
         this.updateVelocityAndDirection();
         this.drawEnemies(ctx);
+        this.resetMoveDownTimer();
+    }
+
+    resetMoveDownTimer() {
+        if(this.moveDownTimer <= 0) {
+            this.moveDownTimer = this.moveDownTimerDefault;
+        }
+    }
+
+    decrementMoveDownTimer() {
+        if(
+            this.currentDirection === MovingDirection.downLeft ||
+            this.currentDirection === MovingDirection.downRight
+        ) {
+            this.moveDownTimer--;
+        }
     }
 
     updateVelocityAndDirection() {
@@ -42,14 +61,25 @@ export default class EnemyController {
             } else if(this.currentDirection == MovingDirection.downLeft) {
                 this.xVelocity = 0;
                 this.yVeloxity = this.defaultYVelocity;
-                const rightMostEnemy = enemyRow[enemyRow.length - 1];
-                
-                if(rightMostEnemy.x + rightMostEnemy.width >= this.canvas.width) {
-                    this.currentDirection = MovingDirection.downLeft;
+               
+                if(this.moveDown(MovingDirection.left)) {
                     break;
                 }
+            } else if(this.currentDirection == MovingDirection.left) {
+                this.xVelocity = -this.defaultXVelocity;
+                this.yVeloxity = 0;
             }
         }
+    }
+
+    moveDown(newDirection) {
+        this.xVelocity = 0;
+        this.yVeloxity = this.defaultYVelocity;
+        if(this.moveDownTimer <= 0) {
+            this.currentDirection = newDirection;
+            return true;
+        }
+        return false;
     }
 
     drawEnemies(ctx) {
