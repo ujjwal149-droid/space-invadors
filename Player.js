@@ -19,8 +19,21 @@ export default class Player{
     }
 
     draw(ctx) {
-        this.move()
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        this.move();
+        this.collideWithWalls();
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+
+    collideWithWalls() {
+        //left
+        if(this.x <= 0) {
+            this.x = 0;
+        }
+
+        //right
+        if(this.x > this.canvas.width - this.width) {
+            this.x = this.canvas.width - this.width;
+        }
     }
 
     move() {
