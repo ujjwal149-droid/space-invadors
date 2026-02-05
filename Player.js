@@ -2,6 +2,7 @@ export default class Player{
 
     rightPressed = false;
     leftPressed = false;
+    shootPressed = false;
 
     constructor(canvas, velocity) {
         this.canvas = canvas;
@@ -19,6 +20,9 @@ export default class Player{
     }
 
     draw(ctx) {
+        if(this.shootPressed) {
+            console.log("Shoot");
+        }
         this.move();
         this.collideWithWalls();
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -51,6 +55,9 @@ export default class Player{
         if(event.code == "ArrowLeft") {
             this.leftPressed = true;
         }
+        if(event.code == "Space") {
+            this.shootPressed = true;
+        }
     }
 
     keyup = event => {
@@ -59,6 +66,9 @@ export default class Player{
         }
         if(event.code == "ArrowLeft") {
             this.leftPressed = false;
+        }
+        if(event.code == "Space") {
+            this.shootPressed = false;
         }
     }
 }
