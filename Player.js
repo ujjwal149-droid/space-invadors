@@ -4,10 +4,10 @@ export default class Player{
     leftPressed = false;
     shootPressed = false;
 
-    constructor(canvas, velocity) {
+    constructor(canvas, velocity, bulletController) {
         this.canvas = canvas;
         this.velocity = velocity;
-
+        this.bulletController = bulletController
         this.x = this.canvas.width/2;
         this.y = this.canvas.height - 75;
         this.width = 50;
@@ -21,7 +21,7 @@ export default class Player{
 
     draw(ctx) {
         if(this.shootPressed) {
-            console.log("Shoot");
+            this.bulletController.shoot(this.x+this.width/2, this.y, 4, 10);
         }
         this.move();
         this.collideWithWalls();
