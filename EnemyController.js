@@ -68,6 +68,19 @@ export default class EnemyController {
             } else if(this.currentDirection == MovingDirection.left) {
                 this.xVelocity = -this.defaultXVelocity;
                 this.yVeloxity = 0;
+
+                const leftMostEnemy = enemyRow[0];
+                if(leftMostEnemy.x <= 0) {
+                    this.currentDirection = MovingDirection.downRight;
+                    break;
+                }
+            } else if(this.currentDirection == MovingDirection.downRight) {
+                this.xVelocity = 0;
+                this.yVeloxity = this.defaultYVelocity;
+               
+                if(this.moveDown(MovingDirection.right)) {
+                    break;
+                }
             }
         }
     }
