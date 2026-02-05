@@ -11,9 +11,9 @@ canvas.height = 600;
 const background = new Image();
 background.src = "images/space.png";
 
-// instance of EnemyController class
-const enemyController = new EnemyController(canvas);
 const bulletController = new BulletController(canvas, 10, "red", true);
+const enemyBulletController = new BulletController(canvas, 4, 'white', false)
+const enemyController = new EnemyController(canvas, enemyBulletController);
 const player = new Player(canvas, 3, bulletController);
 
 // game loop
@@ -23,6 +23,7 @@ function game() {
     enemyController.draw(ctx);
     player.draw(ctx)
     bulletController.draw(ctx);
+    enemyBulletController.draw(ctx);
 }
 
 setInterval(game, 1000/60) // calling game 60 times per sec (60fps)
